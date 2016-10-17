@@ -35,16 +35,16 @@ def Rk4(ya, f, t, dt, l):
     return y, yp
 
 #lambda
-G = 6.67408e-11; Me = 5.9724e24; Ms = 1.9885e30
-R = 1.496e11
-l = (G*Ms*Me)/(R**3)
+G = 6.67408e-5; Me = 5.9724e18; Ms = 1.9885e24
+R = 1.496e5
+l = -(G*Ms*Me)/(R**3)
 
 #defining initial conditions 
-ti = 0; Tmax = 3.154e7
+ti = 0; Tmax = 3.154e1
 w = (np.pi*2)/Tmax; v = w*R
 
 #time steps 
-N = 1e8
+N = 1e4
 
 #collecting initial conditions
 ic = np.array([ti, R, v, l])  # initial time, final time, initial y and lambda
@@ -52,49 +52,12 @@ ic = np.array([ti, R, v, l])  # initial time, final time, initial y and lambda
 # solving ODE
 R = ODEsolve(Tmax, N, f, Rk4, ic) 
 
-T = R[0][1]; Y = R[0][0]
+T = R[1]; Y = R[0][0]
 
-plt.plot(T, Y, label=r'$dt = %.5f$' %(Tmax/n[i]))
+plt.plot(T, Y, label=r'$dt = %.5f$' %(Tmax/N))
 plt.xlabel(r'$Time$')
 plt.ylabel(r'$Y$') 
 plt.title('Graph of ODE')
 plt.legend(loc='best') 
 plt.grid() 
 
-    
-"""
-a,b = ConvergenceTest(ODEsolve, Tmax, n, f, ic, Rk4, 4)
-
-plt.figure()
-plt.subplot(2,1,1)
-plt.plot(a, label=r'$Y - Y/2$')
-plt.plot(b, label=r'$Y/2 - Y/4$')
-plt.xlabel(r'$Time$')
-plt.ylabel(r'$Convergence$') 
-plt.title('Graph of Convergence and Errors')
-plt.legend(loc='best') 
-plt.grid() 
-plt.subplot(2,1,2)
-plt.plot(a/b, label=r'$\frac{Y - Y/2}{Y/2 - Y/4}$')
-plt.xlabel(r'$Time$')
-plt.ylabel(r'$Error$') 
-plt.legend(loc='best')
-plt.grid() 
-    
-dt = (1/2)**np.linspace(1,18,18); Na = Tmax/dt
-
-A = [ODEsolve(Tmax, n, f, Rk4, ic) for i, n in enumerate(Na)] 
-
-Ydt = [A[i][0][0][-1] for i in range(len(A))]
-Tdt = [A[i][1][-1] for i in range(len(A))]
-
-Te = np.array(Tdt); Ye = f1(Te,w)
- 
-plt.figure()   
-plt.loglog(Na, Ye, label=r'$Y - Y/2$')
-plt.xlabel(r'$Time$')
-plt.ylabel(r'$Y$') 
-plt.title('Graph of ODE')
-plt.legend(loc='best') 
-plt.grid()     
-"""
