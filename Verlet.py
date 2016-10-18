@@ -42,6 +42,7 @@ ic = np.array([ti, yi, ypi, l])  # initial time, final time, initial y and lambd
 # solving ODE
 R = ODEsolve(Tmax, N, f, Ver, ic)
 
+<<<<<<< HEAD
 
 
 
@@ -61,3 +62,5 @@ plt.legend(loc='best')
 plt.grid() 
 
     
+=======
+>>>>>>> origin/master
