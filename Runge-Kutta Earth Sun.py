@@ -35,17 +35,14 @@ def Rk4(ra, f, t, dt, l):
     return r, rp
 
 #lambda
-<<<<<<< HEAD
+
 G = 6.67408e-11; Me = 5.9724e24; Ms = 1.9885e30
 R = 1.496e11
-=======
-G = 6.67408e-5; Me = 5.9724e18; Ms = 1.9885e24
-R = 1.496e5
->>>>>>> origin/master
+
 l = -(G*Ms*Me)/(R**3)
 
 #defining initial conditions 
-ti = 0; Tmax = 3.154e1
+ti = 0; Tmax = 3.154e7
 w = (np.pi*2)/Tmax; v = w*R
 
 #time steps 
@@ -57,11 +54,9 @@ ic = np.array([ti, R, v, l])  # initial time, final time, initial y and lambda
 # solving ODE
 X = ODEsolve(Tmax, N, f, Rk4, ic) 
 
-<<<<<<< HEAD
+
 T = X[0][1]; Y = X[0][0]
-=======
-T = R[1]; Y = R[0][0]
->>>>>>> origin/master
+
 
 plt.plot(T, Y, label=r'$dt = %.5f$' %(Tmax/N))
 plt.xlabel(r'$Time$')

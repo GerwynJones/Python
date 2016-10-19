@@ -9,8 +9,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from ODE import ODEsolve
-
-
     
 def Ver(ya, fa, t, dt, l):
     """ The Y array has two values so we need to split them up 
@@ -25,42 +23,5 @@ def Ver(ya, fa, t, dt, l):
     
     return y, yp
 
-   
-#lambda
-w = 2*np.pi; l = -w*w
-
-#defining initial conditions 
-ti = 0; Tmax = 1
-yi = 1; ypi = 0
-
-#time steps 
-N = 1000
-
-#collecting initial conditions
-ic = np.array([ti, yi, ypi, l])  # initial time, final time, initial y and lambda
- 
-# solving ODE
-R = ODEsolve(Tmax, N, f, Ver, ic)
-
-<<<<<<< HEAD
-
-
-
-T = R[1]; Y = R[0][1]
-plt.subplot(2,1,1)
-plt.plot(T, Y, label=r'$dt = %.5f$' %(Tmax/n[i]))
-plt.xlabel(r'$Time$')
-plt.ylabel(r'$Y$') 
-plt.title('Graph of ODE')
-plt.legend(loc='best') 
-plt.grid() 
-plt.subplot(2,1,2)
-plt.plot(T, f1(T,w)-Y, label=r'$delta$ $t = %.5f$' %(Tmax/n[i]) )
-plt.xlabel(r'$Time$')
-plt.ylabel(r'$Error$') 
-plt.legend(loc='best')
-plt.grid() 
 
     
-=======
->>>>>>> origin/master
