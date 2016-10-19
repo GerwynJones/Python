@@ -32,8 +32,8 @@ py = np.zeros((n,N))
 py[0] = ip
 vx[0,1] = iv[0]
 
-ax = np.zeros(N)
-ay = np.zeros(N)
+ax = np.zeros((N,N))
+ay = np.zeros((N,N))
 
 for i in range(1,n):
     for j in range(N-1):
@@ -49,8 +49,8 @@ for i in range(1,n):
             
     for j in range(N):
         "Velocities:"
-        vx[i,j] = vx[i-1,j] + dt*ax[i-1,j]
-        vy[i,j] = vy[i-1,j] + dt*ay[i-1,j]        
+        vx[i,j] = vx[i-1,j] + dt*ax[j]
+        vy[i,j] = vy[i-1,j] + dt*ay[j]        
         "Position:"
         px[i,j] = px[i-1,j] + dt*vx[i-1,j]
         py[i,j] = py[i-1,j] + dt*vy[i-1,j]
