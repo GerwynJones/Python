@@ -33,27 +33,22 @@ py = np.zeros((n,N))
 py[0] = ipy
 vx[0] = ivx
 
-#a = np.zeros((N,2))
-
 for i in range(1,n):
-    ax = np.zeros((N,2))
-    ay = np.zeros((N,2))
-    for j in range(N):
-        for k in range(N):
-            if j != k:
-                x = px[i-1,k]-px[i-1,j]
-                y = py[i-1,k]-py[i-1,j]
-                c = -G/((x**2 + y**2)+e)**(3/2)
-                ax[j,k] =+ c*M[k]*x
-                ax[k,j] =+ c*M[j]*x
-                ay[j,k] =+ c*M[k]*y
-                ay[k,j] =+ c*M[j]*y
+    a = np.zeros((N,2))
+    for j in range(N-1):
+        for k in range(j+1,N):          
+            x = px[i-1,k]-px[i-1,j]
+            y = py[i-1,k]-py[i-1,j]
+            r = np.array([x,y])
+            c = -G/((x**2 + y**2)+e)**(3/2)
+            a[j,:] = -c*M[k]*r
+            a[k,:] = c*M[j]*r
                
     for j in range(N):
 
         "Velocities:"
-        vx[i,j] = vx[i-1,j] + dt*ax[j,]
-        vy[i,j] = vy[i-1,j] + dt*ay[j,1]        
+        vx[i,j] = vx[i-1,j] + dt*a[j,0]
+        vy[i,j] = vy[i-1,j] + dt*a[j,1]        
         "Position:"
         px[i,j] = px[i-1,j] + dt*vx[i,j]
         py[i,j] = py[i-1,j] + dt*vy[i,j]
@@ -78,7 +73,4 @@ ax1.plot(px[:,1],py[:,1])
 ax1.plot(px[:,0],py[:,0])
 
 
-        
-            
-            
-    
+
