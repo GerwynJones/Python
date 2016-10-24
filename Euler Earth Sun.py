@@ -9,29 +9,29 @@ from __future__ import division
 import numpy as np 
 import matplotlib.pyplot as plt
 
-N = 2
+N = 3
 
-t = 3.1557e7; dt = t/360
+t = 3.1557e7; dt = t/3600
 n = int(t/dt)
 
 G = 6.67e-11
 Ms = 1.989e30
 Me = 5.972e24
-M = np.array([Ms,Me])
+M = np.array([Ms,Me,0.000*Me])
 AU = 1.496e11
 e = 0.00*AU
-v = (2*np.pi*AU)/t
+v = (2*np.pi*AU)/(t)
 
-ipy = np.array([0,AU])
-ivx = np.array([0,v])
+ipy = np.array([0,AU,2*AU])
+ivx = np.array([0,v,v])
 
-vx = np.zeros((n,N))
-vy = np.zeros((n,N))
-px = np.zeros((n,N))
-py = np.zeros((n,N))
+pos = zeros((N,3*(steps+1)))
+vel = zeros((N,3))
+pos[0][0:3] = array([0,AU,0])
+pos[2][0:3] = array([0,-AUa,0])
+vel[0][0:3] = array([30000,0,0])
+vel[2][0:3] = array([-24000,0,0])
 
-py[0] = ipy
-vx[0] = ivx
 
 for i in range(1,n):
     a = np.zeros((N,2))
@@ -41,9 +41,9 @@ for i in range(1,n):
             y = py[i-1,k]-py[i-1,j]
             r = np.array([x,y])
             c = -G/((x**2 + y**2)+e)**(3/2)
-            a[j,:] = -c*M[k]*r
-            a[k,:] = c*M[j]*r
-               
+            a[j] = a[j,:] + -c*M[k]*r
+            a[k] = a[k,:] + c*M[j]*r
+            
     for j in range(N):
 
         "Velocities:"
@@ -69,8 +69,7 @@ for i in range(1,n):
         
 fig = plt.figure()
 ax1 = fig.add_subplot(111)  
-ax1.plot(px[:,1],py[:,1])
-ax1.plot(px[:,0],py[:,0])
+ax1.plot(px,py)
 
 
 
