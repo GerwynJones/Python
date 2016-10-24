@@ -9,67 +9,72 @@ from __future__ import division
 import numpy as np 
 import matplotlib.pyplot as plt
 
-N = 3
+def Verp(ovel,opos,dt,a):
+    "Position:"
+    pos = opos + ovel*dt + .5*a*dt**2
+    return pos
+    
+def Verv(pos,mass,ovel,a):
+     "Velocities:"
+     vel = ovel + .5*(a + acc(pos,mass))*dt
+     return vel
 
-t = 3.1557e7; dt = t/3600
-n = int(t/dt)
-
-G = 6.67e-11
-Ms = 1.989e30
-Me = 5.972e24
-M = np.array([Ms,Me,0.000*Me])
-AU = 1.496e11
-e = 0.00*AU
-v = (2*np.pi*AU)/(t)
-
-ipy = np.array([0,AU,2*AU])
-ivx = np.array([0,v,v])
-
-pos = zeros((N,3*(steps+1)))
-vel = zeros((N,3))
-pos[0][0:3] = array([0,AU,0])
-pos[2][0:3] = array([0,-AUa,0])
-vel[0][0:3] = array([30000,0,0])
-vel[2][0:3] = array([-24000,0,0])
-
-
-for i in range(1,n):
-    a = np.zeros((N,2))
-    for j in range(N-1):
-        for k in range(j+1,N):          
-            x = px[i-1,k]-px[i-1,j]
-            y = py[i-1,k]-py[i-1,j]
-            r = np.array([x,y])
-            c = -G/((x**2 + y**2)+e)**(3/2)
-            a[j] = a[j,:] + -c*M[k]*r
-            a[k] = a[k,:] + c*M[j]*r
+def acc(pos,mass):
+    a = zeros((N,3))
+    G = 6.67408*10**-11
+    for i in range(0,N-1):
+        for j in range(i+1,N):
+            r = pos[i]-pos[j]
+            m = np.linalg.norm(r)
+            F = -(G/m**3)*r
+            a[i] += F*mass[j]
+            a[j] += -F*mass[i]
             
-    for j in range(N):
+        return a
 
-        "Velocities:"
-        vx[i,j] = vx[i-1,j] + dt*a[j,0]
-        vy[i,j] = vy[i-1,j] + dt*a[j,1]        
-        "Position:"
-        px[i,j] = px[i-1,j] + dt*vx[i,j]
-        py[i,j] = py[i-1,j] + dt*vy[i,j]
-#        
-#        px[i,j] = px[i-1,j] + dt*vx[i-1,j] + .5*(ax[j])*(dt*dt)
-#        py[i,j] = py[i-1,j] + dt*vy[i-1,j] + .5*(ay[j])*(dt*dt)
-#
-#        vx[i,j] = vx[i-1,j] + .5*(c*ax[j] + ax[j])*dt
-#        vy[i,j] = vy[i-1,j] + + .5*(c*ay[j] + ay[j])*dt
-#
-##    "Position:"
-##    e_x[i] = e_x[i-1] + dt*e_vx[i-1] + .5*(a*e_x[i-1])*(dt*dt)
-##    e_y[i] = e_y[i-1] + dt*e_vy[i-1] + .5*(a*e_x[i-1])*(dt*dt)
-##    "Velocities:"
-##    e_vx[i] = e_vx[i-1] + .5*(a*(e_x[i-1] + e_x[i]))*dt
-##    e_vy[i] = e_vy[i-1] + + .5*(a*(e_y[i-1] + e_y[i]))*dt
-#
-        
-fig = plt.figure()
-ax1 = fig.add_subplot(111)  
-ax1.plot(px,py)
+AU = 149597871000
+Ms = 1.989*10**30
+Me = 5.972*10**24
+Ma = 6.39*10**23
+AUa = 1.524*AU
 
+"Defining Variables"
+N = 3
+t_max = 3.1556e7
+dt = 100
+steps = int(t_max/dt)
+
+v = (2*np.pi*AU)/t_max
+
+mass = array([Ms,Me,Ma])
+pos = zeros((N,3))
+vel = zeros((N,3))
+
+pos[1] = array([0,AU,0.5*AU])
+pos[2] = array([0,-AUa,0])
+vel[1] = array([v,0,0])
+vel[2] = array([-24000,0,2000])
+ind = 0
+
+s = []
+e = []
+ma = []
+
+for i in range(0,steps):
+    print(i/steps*100)
+    a = acc(pos,mass)
+
+    "Verlet Method"
+
+    opos = pos
+    ovel = vel
+
+    pos = Verp(ovel,opos,dt,a)
+    vel = Verv(pos,mass,ovel,a)
+    
+    """dump pos into file"""
+    s.append(pos[:][0])
+    e.append(pos[:][1])
+    ma.append(pos[:][2])    
 
 
