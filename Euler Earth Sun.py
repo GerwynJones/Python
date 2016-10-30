@@ -50,15 +50,15 @@ mass = array([Ms,Me,Ma])
 pos = zeros((N,3))
 vel = zeros((N,3))
 
-pos[1] = array([0,AU,0.5*AU])
+pos[1] = array([0,AU,0.*AU])
 pos[2] = array([0,-AUa,0])
 vel[1] = array([v,0,0])
-vel[2] = array([-24000,0,2000])
-ind = 0
+vel[2] = array([-24000,0,0])
 
-s = []
-e = []
-ma = []
+
+a0 = []
+b0 = []
+c0 = []
 
 for i in range(0,steps):
     print(i/steps*100)
@@ -73,8 +73,18 @@ for i in range(0,steps):
     vel = Verv(pos,mass,ovel,a)
     
     """dump pos into file"""
-    s.append(pos[:][0])
-    e.append(pos[:][1])
-    ma.append(pos[:][2])    
+    a0.append(pos[0])
+    b0.append(pos[1])
+    c0.append(pos[2])    
 
 
+a = np.zeros((steps,3))
+b = np.zeros((steps,3))
+c = np.zeros((steps,3))
+
+for i in range (0,steps):
+    a[i] = a0[i]
+    b[i] = b0[i]
+    c[i] = c0[i]
+    
+plt.plot(a[:,0],a[:,1]); plt.plot(b[:,0],b[:,1]); plt.plot(c[:,0],c[:,1])
