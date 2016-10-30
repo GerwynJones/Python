@@ -17,13 +17,13 @@ def Verp(ovel, opos, dt, a):
     pos = opos + ovel*dt + .5*a*dt**2
     return pos
     
-def Verv(pos, mass, ovel, a):
+def Verv(pos, mass, ovel, a, e):
      "Velocities:"
-     an, pe, ke = acc(pos, mass, ovel)
+     an, pe, ke = acc(pos, mass, ovel, e)
      vel = ovel + .5*(a + an)*dt
      return vel
 
-def acc(pos, mass, vel):
+def acc(pos, mass, vel, e):
     
     a = np.zeros((N,3))
     pe = np.zeros((N,1))
@@ -38,12 +38,12 @@ def acc(pos, mass, vel):
             
             r = pos[i]-pos[j]
             m = LA.norm(r)
-            F = -(G/m**3)*r
+            F = -(G/(m+e)**3)*r
             
             a[i] += F*mass[j]
             a[j] += -F*mass[i]
-            pe[i] += (G*mass[i]*mass[j])/m
-            pe[j] += (G*mass[j]*mass[i])/m
+            pe[i] += (G*mass[i]*mass[j])/(m+e)
+            pe[j] += (G*mass[j]*mass[i])/(m+e)
             ke[i] += .5*mass[i]*vi**2
             ke[j] += .5*mass[j]*vj**2
             
@@ -67,26 +67,26 @@ mass = np.array([Ms,Me,Ma])
 pos = np.zeros((N,3))
 vel = np.zeros((N,3))
 
-pos[1] = np.array([0,0.4*AU,0.05*AU])
+pos[1] = np.array([0,0.33*AU,0.05*AU])
 pos[2] = np.array([0,0.3*AUa,0])
 vel[1] = np.array([v,0,0])
 vel[2] = np.array([24000,0,0])
-
+e = 0.05*AU
 
 a0 = []; Ta = []
 b0 = []; Tb = []
 c0 = []; Tc = []
 
 for i in range(0,steps):
-    print(i/steps*100)
-    a, pe, ke = acc(pos, mass, vel)
+#    print(i/steps*100)
+    a, pe, ke = acc(pos, mass, vel, e)
 
     "Verlet Method"
     opos = pos
     ovel = vel
 
     pos = Verp(ovel, opos, dt, a)
-    vel = Verv(pos, mass, ovel, a)
+    vel = Verv(pos, mass, ovel, a, e)
     
     """dump pos into file"""
     a0.append(pos[0])

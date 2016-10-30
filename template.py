@@ -19,7 +19,7 @@ Ms = 1.989e30
 Me = 5.972e24
 M = np.array([Ms,Me,3*Me])
 AU = 1.496e11
-e = 0.00*AU
+e = 0.05*AU
 v = (2*np.pi*AU)/t
 
 ipy = np.array([0,AU,3*AU])
@@ -46,7 +46,8 @@ for i in range(1,n):
                 y = py[i-1,k]-py[i-1,j]
                 r = np.array([x,y])
                 c = -G/((x**2 + y**2)+e)**(3/2)
-                a[j,:] =+ c*M[j]*r
+                a[j,:] =+ c*M[k]*r
+                a[k,:] =+ c*M[j]*r
 
 
                
