@@ -78,7 +78,6 @@ b0 = []; Tb = []
 c0 = []; Tc = []
 
 while t < t_max:
-#    print(i/steps*100)
     ac, pe, ke = acc(pos, mass, vel, e)
 
     dt_grav =  np.min([dt_max,((2*n*e)/(LA.norm(ac)))**.5])
