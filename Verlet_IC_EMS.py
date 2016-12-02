@@ -31,4 +31,12 @@ pos[2] = np.array([0,AU + m,0])
 vel[1] = np.array([v,0,0])
 vel[2] = np.array([vm,0,0])
 
-e = 0.0005*AU; n = 0.0001
+e = 0.0005*AU; n = 0.1
+
+a = []; Ta = []
+b = []; Tb = []
+c = []; Tc = []
+
+Tsum = []
+
+T = [] 
