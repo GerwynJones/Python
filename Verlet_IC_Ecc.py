@@ -4,20 +4,20 @@ Created on Thu Nov 24 22:29:44 2016
 
 @author: Admin
 """
-
 from __future__ import division
 import numpy as np 
 
-AU = 149597871000; A = 3000*AU
-Ms = 1.989*10**30
-Me = 5.972*10**24
+AU = 149597871000; A = 200*AU
+Ms = 1.989e30
+Me = 5.972e24
+Year = 3.1556e7
 
 "Defining Variables"
 N = 2
-t_max = 3.1556e7*(150.11e3); t = 0
-dt_max = t_max/500
+t_max = Year*(.65e3)  #1.25e3 for dt_grav and .65e3 for dt_max
+dt_max = t_max/200
 
-V =  2*(2*np.pi*A)/t_max
+V =  (2*np.pi*A)/(Year*(5.5e3))
 
 mass = np.array([Ms,Me])
 
@@ -25,15 +25,13 @@ pos = np.zeros((N,3))
 vel = np.zeros((N,3))
 
 pos[1] = np.array([0,A,0])
-vel[1] = np.array([V/3,0,0])
+vel[1] = np.array([V,0,0])
 
-
-e = 0.6*AU; n = 2
-
+e = 0.05*AU; n = 0.05
 
 a = []; Ta = []
 b = []; Tb = []
 
 Tsum = []
 
-T = [] 
+T = []; dT = []

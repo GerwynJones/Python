@@ -4,15 +4,13 @@ Created on Tue Oct 18 09:11:38 2016
 
 @author: Admin
 """
-
 from __future__ import division
 import numpy as np 
 from numpy import linalg as LA
 
-from Verlet_IC_EMS import *
+from Verlet_IC_Ecc import *
 
 #####################
-
 
 def Verp(ovel, opos, dt, a):
     "Position:"
@@ -44,7 +42,6 @@ def acc(pos, mass, vel, e):
             pe[i] += -(G*mass[i]*mass[j])/(m+e) # Check PE
             pe[j] += -(G*mass[j]*mass[i])/(m+e)
 
-            
     return a, pe
 
 def KE(vel, mass):
@@ -57,41 +54,45 @@ def KE(vel, mass):
 
     return ke
 
+t = 0; acs = []
+
 while t < t_max:   
     
     ac, pe = acc(pos, mass, vel, e)
     
     ke = KE(vel,mass)
+    
+    a_o = (LA.norm(ac, axis = 1)); acs.append(a_o); acceleration = np.asarray(acs)
+    
+    dt_grav =  np.min([dt_max, np.sqrt((2*n*e)/np.max(a_o))])
 
-    dt_grav =  np.min([dt_max,((2*n*e)/(np.max(LA.norm(ac, axis = 1))))**.5])
-
-    T.append(t + dt_grav)
     print(t/t_max)*100 
-
+    T.append(t + dt_grav)
+    dT.append(dt_grav)    
+    
     "Verlet Method"
-    opos = pos
-    ovel = vel
+    opos = pos; ovel = vel
 
-    pos = Verp(ovel, opos, dt_grav, ac)
-    vel = Verv(pos, mass, ovel, dt_grav, ac, e)
+    pos = Verp(ovel, opos, dt_max, ac)
+    vel = Verv(pos, mass, ovel, dt_max, ac, e)
 
     t += dt_grav
     
-    """dump pos into file"""
+    """Dump pos into file"""
     a.append(pos[0])
     A = np.asarray(a)
     b.append(pos[1])
     B = np.asarray(b)
-    c.append(pos[2])    
-    C = np.asarray(c)
-    """dump energies into file"""
+#    c.append(pos[2])    
+#    C = np.asarray(c)
+    """Dump energies into file"""
     Ta.append(pe[0] + ke[0])
     Ea = np.asarray(Ta)
     Tb.append(pe[1] + ke[1])
     Eb = np.asarray(Tb)
-    Tc.append(pe[2] + ke[2])
-    Ec =  np.asarray(Tc)
-    Tsum.append(Ea + Eb + Ec)
+#    Tc.append(pe[2] + ke[2])
+#    Ec =  np.asarray(Tc)
+    Tsum.append(pe[0] + ke[0] + pe[1] + ke[1]) # + pe[2] + ke[2])
     Esum =  np.asarray(Tsum)
     
     if t == t_max:

@@ -4,14 +4,13 @@ Created on Thu Nov 24 22:29:44 2016
 
 @author: Admin
 """
-
 from __future__ import division
 import numpy as np 
 
 AU = 149597871000
-Ms = 1.989*10**30
-Me = 5.972*10**24
-Mm = 7.342*10**22
+Ms = 1.989e30
+Me = 5.972e24
+Mm = 7.342e22
 
 "Defining Variables"
 N = 3
