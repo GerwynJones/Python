@@ -18,7 +18,7 @@ ax = fig.add_subplot(111, projection='3d')
 plt.plot(A[:,0],A[:,1],A[:,2],'o'); plt.plot(B[:,0],B[:,1],B[:,2]) #; plt.plot(C[:,0],C[:,1],C[:,2])
 
 plt.figure()
-plt.plot(T, Ea/Esum, color = 'blue'), plt.plot(T, Eb/Esum, color = 'red'); plt.plot(T, ((Ea/Esum)+(Eb/Esum)), color = 'black') #; plt.plot(T, Ec/Esum, color = 'green')
+plt.plot(T, Ea, color = 'blue'), plt.plot(T, Eb, color = 'red'); plt.plot(T, (Ea+Eb), color = 'black') #; plt.plot(T, Ec/Esum, color = 'green')
 
 fig = plt.figure()
 plt.plot(A[:,0],A[:,1], 'o'); plt.plot(B[:,0],B[:,1], 'o') #; plt.plot(C[:,0],C[:,1])

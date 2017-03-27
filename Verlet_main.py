@@ -8,7 +8,7 @@ from __future__ import division
 import numpy as np 
 from numpy import linalg as LA
 
-from Verlet_IC_Ecc import *
+from Verlet_IC_EMS import *
 
 #####################
 
@@ -24,7 +24,6 @@ def Verv(pos, mass, ovel, dt, a, e):
      return vel
 
 def acc(pos, mass, vel, e):
-    
     a = np.zeros((N,3))
     pe = np.zeros((N,1))
     
